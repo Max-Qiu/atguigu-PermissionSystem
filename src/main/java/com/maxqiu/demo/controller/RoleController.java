@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -56,7 +57,7 @@ public class RoleController {
     /**
      * 根据id查询
      */
-    @GetMapping("get/{id}")
+    @GetMapping("detail/{id}")
     public Result<RoleVO> findRoleById(@PathVariable Long id) {
         return Result.success(new RoleVO(roleService.getById(id)));
     }
@@ -72,7 +73,7 @@ public class RoleController {
     /**
      * 修改
      */
-    @PostMapping("update")
+    @PutMapping("update")
     public Result<?> update(@RequestBody Role role) {
         return Result.byFlag(roleService.updateById(role));
     }
