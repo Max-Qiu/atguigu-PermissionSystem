@@ -30,7 +30,7 @@ public class User extends Model<User> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 会员id
+     * 用户ID
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
@@ -84,13 +84,13 @@ public class User extends Model<User> {
     private String description;
 
     /**
-     * 状态（1：正常 0：停用）
+     * 状态
      */
     @TableField("`status`")
     private Boolean status;
 
     /**
-     * 是否删除 0:否 1:是
+     * 是否删除
      */
     @TableField("deleted")
     private Boolean deleted;

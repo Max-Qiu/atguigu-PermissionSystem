@@ -16,7 +16,7 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 /**
- * 角色
+ * 角色与菜单
  *
  * @author Max_Qiu
  */
@@ -25,33 +25,27 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @ToString
 @Accessors(chain = true)
-@TableName("sys_role")
-public class Role extends Model<Role> {
+@TableName("sys_role_menu")
+public class RoleMenu extends Model<RoleMenu> {
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 主键ID
+     */
+    @TableId(value = "id", type = IdType.AUTO)
+    private Integer id;
 
     /**
      * 角色ID
      */
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    @TableField("role_id")
+    private Integer roleId;
 
     /**
-     * 角色名称
+     * 菜单ID
      */
-    @TableField("role_name")
-    private String roleName;
-
-    /**
-     * 角色编码
-     */
-    @TableField("role_code")
-    private String roleCode;
-
-    /**
-     * 描述
-     */
-    @TableField("`description`")
-    private String description;
+    @TableField("menu_id")
+    private Integer menuId;
 
     /**
      * 是否删除

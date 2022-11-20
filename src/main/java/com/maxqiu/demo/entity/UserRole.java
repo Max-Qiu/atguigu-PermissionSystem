@@ -30,28 +30,28 @@ public class UserRole extends Model<UserRole> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 主键id
+     * 主键ID
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**
-     * 角色id
-     */
-    @TableField("role_id")
-    private Integer roleId;
-
-    /**
-     * 用户id
+     * 用户ID
      */
     @TableField("user_id")
     private Integer userId;
 
     /**
-     * 是否删除 0:否 1:是
+     * 角色ID
+     */
+    @TableField("role_id")
+    private Integer roleId;
+
+    /**
+     * 是否删除
      */
     @TableField("deleted")
-    private Integer deleted;
+    private Boolean deleted;
 
     /**
      * 创建时间

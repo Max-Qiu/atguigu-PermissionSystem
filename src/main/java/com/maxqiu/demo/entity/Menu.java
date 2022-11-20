@@ -16,7 +16,7 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 /**
- * 角色
+ * 菜单
  *
  * @author Max_Qiu
  */
@@ -25,33 +25,69 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @ToString
 @Accessors(chain = true)
-@TableName("sys_role")
-public class Role extends Model<Role> {
+@TableName("sys_menu")
+public class Menu extends Model<Menu> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 角色ID
+     * 菜单ID
      */
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     /**
-     * 角色名称
+     * 所属上级
      */
-    @TableField("role_name")
-    private String roleName;
+    @TableField("parent_id")
+    private Integer parentId;
 
     /**
-     * 角色编码
+     * 名称
      */
-    @TableField("role_code")
-    private String roleCode;
+    @TableField("`name`")
+    private String name;
 
     /**
-     * 描述
+     * 类型(0:目录,1:菜单,2:按钮)
      */
-    @TableField("`description`")
-    private String description;
+    @TableField("`type`")
+    private Integer type;
+
+    /**
+     * 路由地址
+     */
+    @TableField("`path`")
+    private String path;
+
+    /**
+     * 组件路径
+     */
+    @TableField("`component`")
+    private String component;
+
+    /**
+     * 权限标识
+     */
+    @TableField("perms")
+    private String perms;
+
+    /**
+     * 图标
+     */
+    @TableField("icon")
+    private String icon;
+
+    /**
+     * 排序
+     */
+    @TableField("sort_value")
+    private Integer sortValue;
+
+    /**
+     * 状态
+     */
+    @TableField("`status`")
+    private Boolean status;
 
     /**
      * 是否删除
