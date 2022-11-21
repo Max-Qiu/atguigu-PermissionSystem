@@ -29,10 +29,19 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         return page(pageRequest.toPage(), wrapper);
     }
 
+    /**
+     * 根据用户名查找当前用户
+     */
+    public User getByUsername(String username) {
+        LambdaQueryWrapper<User> wrapper = Wrappers.lambdaQuery();
+        wrapper.eq(User::getUsername, username);
+        return getOne(wrapper);
+    }
+
     public boolean updateStatus(Integer id, Boolean status) {
         User user = new User();
         user.setId(id);
-        user.setStatus(status);
+        user.setEnable(status);
         return user.updateById();
     }
 }

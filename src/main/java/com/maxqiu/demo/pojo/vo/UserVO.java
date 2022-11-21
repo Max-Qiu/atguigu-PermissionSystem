@@ -92,7 +92,7 @@ public class UserVO extends Model<UserVO> {
         this.setDeptId(entity.getDeptId());
         this.setPostId(entity.getPostId());
         this.setDescription(entity.getDescription());
-        this.setStatus(entity.getStatus());
+        this.setStatus(entity.getEnable());
         this.setDeleted(entity.getDeleted());
         this.setCreateTime(entity.getCreateTime());
         this.setUpdateTime(entity.getUpdateTime());

@@ -84,10 +84,10 @@ public class User extends Model<User> {
     private String description;
 
     /**
-     * 状态
+     * 是否启用
      */
-    @TableField("`status`")
-    private Boolean status;
+    @TableField("`enable`")
+    private Boolean enable;
 
     /**
      * 是否删除

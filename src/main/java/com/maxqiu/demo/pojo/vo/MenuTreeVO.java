@@ -100,7 +100,7 @@ public class MenuTreeVO {
         this.setPerms(entity.getPerms());
         this.setIcon(entity.getIcon());
         this.setSortValue(entity.getSortValue());
-        this.setStatus(entity.getStatus());
+        this.setStatus(entity.getEnable());
         this.setDeleted(entity.getDeleted());
         this.setCreateTime(entity.getCreateTime());
         this.setUpdateTime(entity.getUpdateTime());
