@@ -42,34 +42,9 @@ public class UserVO extends Model<UserVO> {
     private String phone;
 
     /**
-     * 头像地址
+     * 是否启用
      */
-    private String headUrl;
-
-    /**
-     * 部门id
-     */
-    private Long deptId;
-
-    /**
-     * 岗位id
-     */
-    private Long postId;
-
-    /**
-     * 描述
-     */
-    private String description;
-
-    /**
-     * 状态（1：正常 0：停用）
-     */
-    private Boolean status;
-
-    /**
-     * 是否删除 0:否 1:是
-     */
-    private Boolean deleted;
+    private Boolean enable;
 
     /**
      * 创建时间
@@ -88,12 +63,7 @@ public class UserVO extends Model<UserVO> {
         this.setUsername(entity.getUsername());
         this.setName(entity.getName());
         this.setPhone(entity.getPhone());
-        this.setHeadUrl(entity.getHeadUrl());
-        this.setDeptId(entity.getDeptId());
-        this.setPostId(entity.getPostId());
-        this.setDescription(entity.getDescription());
-        this.setStatus(entity.getEnable());
-        this.setDeleted(entity.getDeleted());
+        this.setEnable(entity.getEnable());
         this.setCreateTime(entity.getCreateTime());
         this.setUpdateTime(entity.getUpdateTime());
     }

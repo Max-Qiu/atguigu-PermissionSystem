@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +19,7 @@ import com.maxqiu.demo.common.Result;
 import com.maxqiu.demo.entity.User;
 import com.maxqiu.demo.pojo.vo.PageVO;
 import com.maxqiu.demo.pojo.vo.UserVO;
+import com.maxqiu.demo.request.UserFormRequest;
 import com.maxqiu.demo.request.UserPageRequest;
 import com.maxqiu.demo.service.UserService;
 
@@ -35,7 +35,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/page")
-    public Result<PageVO<UserVO>> list(@Validated UserPageRequest pageRequest) {
+    public Result<PageVO<UserVO>> list(UserPageRequest pageRequest) {
         IPage<User> page = userService.page(pageRequest);
         List<UserVO> collect = page.getRecords().stream().map(UserVO::new).collect(Collectors.toList());
         return Result.success(new PageVO<>(page, collect));
@@ -48,16 +48,13 @@ public class UserController {
     }
 
     @PostMapping("create")
-    public Result<?> create(@RequestBody User user) {
-        // 把输入密码进行加密 MD5
-        // String encrypt = MD5.encrypt(user.getPassword());
-        // user.setPassword(encrypt);
-        return Result.byFlag(userService.save(user));
+    public Result<?> create(@RequestBody UserFormRequest formRequest) {
+        return Result.byFlag(userService.create(formRequest));
     }
 
     @PutMapping("update")
-    public Result<?> update(@RequestBody User user) {
-        return Result.byFlag(userService.updateById(user));
+    public Result<?> update(@RequestBody UserFormRequest formRequest) {
+        return Result.byFlag(userService.updateById(formRequest));
     }
 
     @PutMapping("status/{id}/{status}")

@@ -17,6 +17,8 @@ public enum ResultEnum {
     FAIL(1, "失败"),
     // 参数异常
     PARAMETER_ERROR(400, "参数校验异常"),
+    // 未登录
+    NOT_LOG_IN(403, "未登录"),
     // 服务器异常
     SERVER_ERROR(500, "未知异常"),
 

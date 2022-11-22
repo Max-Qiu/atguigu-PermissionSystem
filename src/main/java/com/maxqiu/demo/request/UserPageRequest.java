@@ -2,6 +2,8 @@ package com.maxqiu.demo.request;
 
 import java.time.LocalDateTime;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,13 +27,12 @@ public class UserPageRequest extends BasePageRequest {
     /**
      * 创建时间（开始）
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTimeBegin;
+
     /**
      * 创建时间（结束）
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTimeEnd;
-
-    private Long roleId;
-    private Long postId;
-    private Long deptId;
 }

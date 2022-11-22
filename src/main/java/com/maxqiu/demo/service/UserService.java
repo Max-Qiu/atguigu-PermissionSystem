@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.maxqiu.demo.entity.User;
 import com.maxqiu.demo.mapper.UserMapper;
+import com.maxqiu.demo.request.UserFormRequest;
 import com.maxqiu.demo.request.UserPageRequest;
 
 import cn.hutool.core.util.StrUtil;
@@ -19,6 +20,9 @@ import cn.hutool.core.util.StrUtil;
  */
 @Service
 public class UserService extends ServiceImpl<UserMapper, User> {
+    /**
+     * 分页查找
+     */
     public IPage<User> page(UserPageRequest pageRequest) {
         LambdaQueryWrapper<User> wrapper = Wrappers.lambdaQuery();
         wrapper.and(StrUtil.isNotBlank(pageRequest.getKeyword()), w -> w.like(User::getUsername, pageRequest.getKeyword()).or()
@@ -38,6 +42,37 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         return getOne(wrapper);
     }
 
+    /**
+     * 新增
+     */
+    public Boolean create(UserFormRequest formRequest) {
+        User user = new User();
+        user.setUsername(formRequest.getUsername());
+        // TODO 把输入密码进行加密 MD5
+        // String encrypt = MD5.encrypt(user.getPassword());
+        user.setPassword(formRequest.getPassword());
+        user.setName(formRequest.getName());
+        user.setPhone(formRequest.getPhone());
+        return save(user);
+    }
+
+    /**
+     * 更新
+     */
+    public boolean updateById(UserFormRequest formRequest) {
+        User user = new User();
+        user.setId(formRequest.getId());
+        user.setUsername(formRequest.getUsername());
+        // TODO 把输入密码进行加密 MD5
+        user.setPassword(formRequest.getPassword());
+        user.setName(formRequest.getName());
+        user.setPhone(formRequest.getPhone());
+        return updateById(user);
+    }
+
+    /**
+     * 更新状态
+     */
     public boolean updateStatus(Integer id, Boolean status) {
         User user = new User();
         user.setId(id);

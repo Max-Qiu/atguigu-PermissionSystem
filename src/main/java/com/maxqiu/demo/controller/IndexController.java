@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.maxqiu.demo.common.Result;
 import com.maxqiu.demo.entity.Menu;
 import com.maxqiu.demo.entity.User;
+import com.maxqiu.demo.enums.ResultEnum;
 import com.maxqiu.demo.pojo.vo.InfoVO;
 import com.maxqiu.demo.request.LoginFormRequest;
 import com.maxqiu.demo.service.MenuService;
@@ -71,6 +72,9 @@ public class IndexController {
     public Result<InfoVO> info(@RequestHeader("token") String token) {
         // 从token字符串获取用户id
         Integer userId = redisTemplate.opsForValue().get(token);
+        if (userId == null) {
+            return Result.other(ResultEnum.NOT_LOG_IN);
+        }
         User user = userService.getById(userId);
         // 获取菜单
         List<Menu> list = menuService.listByUserId(userId);

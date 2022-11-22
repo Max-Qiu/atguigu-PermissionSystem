@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+    <!-- 搜索框 -->
     <div class="search-div">
       <el-form label-width="70px" size="small">
         <el-row>
@@ -11,19 +12,19 @@
           <el-col :span="8">
             <el-form-item label="操作时间">
               <el-date-picker
-                v-model="createTimes"
-                type="datetimerange"
-                range-separator="至"
-                start-placeholder="开始时间"
-                end-placeholder="结束时间"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                style="margin-right: 10px;width: 100%;"
+                  v-model="createTimes"
+                  type="datetimerange"
+                  range-separator="至"
+                  start-placeholder="开始时间"
+                  end-placeholder="结束时间"
+                  value-format="yyyy-MM-dd HH:mm:ss"
+                  style="margin-right: 10px;"
               />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row style="display:flex">
-          <el-button type="primary" icon="el-icon-search" size="mini"  @click="fetchData()">搜索</el-button>
+          <el-button type="primary" icon="el-icon-search" size="mini" @click="fetchData()">搜索</el-button>
           <el-button icon="el-icon-refresh" size="mini" @click="resetData">重置</el-button>
         </el-row>
       </el-form>
@@ -34,18 +35,18 @@
       <el-button type="success" :disabled="$hasBP('bnt.sysUser.add')  === false" icon="el-icon-plus" size="mini" @click="add">添 加</el-button>
     </div>
 
-	<!-- 列表 -->
+    <!-- 列表 -->
     <el-table
-      v-loading="listLoading"
-      :data="list"
-      stripe
-      border
-      style="width: 100%;margin-top: 10px;">
+        v-loading="listLoading"
+        :data="list"
+        stripe
+        border
+        style="width: 100%;margin-top: 10px;">
 
       <el-table-column
-        label="序号"
-        width="70"
-        align="center">
+          label="序号"
+          width="70"
+          align="center">
         <template slot-scope="scope">
           {{ (page - 1) * limit + scope.$index + 1 }}
         </template>
@@ -53,34 +54,34 @@
 
       <el-table-column prop="username" label="用户名" width="180"/>
       <el-table-column prop="name" label="姓名" width="110"/>
-      <el-table-column prop="phone" label="手机" />
+      <el-table-column prop="phone" label="手机"/>
       <el-table-column label="状态" width="80">
         <template slot-scope="scope">
           <el-switch
-            v-model="scope.row.status===1"
-            @change="switchStatus(scope.row)">
+              v-model="scope.row.enable"
+              @change="switchStatus(scope.row)">
           </el-switch>
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" />
+      <el-table-column prop="createTime" label="创建时间"/>
 
-      <el-table-column label="操作"  align="center" fixed="right">
+      <el-table-column label="操作" align="center" fixed="right">
         <template slot-scope="scope">
           <el-button type="primary" icon="el-icon-edit" size="mini" @click="edit(scope.row.id)" title="修改"/>
-          <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeDataById(scope.row.id)" title="删除" />
-           <el-button type="warning" icon="el-icon-baseball" size="mini" @click="showAssignRole(scope.row)" title="分配角色"/>
+          <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeDataById(scope.row.id)" title="删除"/>
+          <el-button type="warning" icon="el-icon-baseball" size="mini" @click="showAssignRole(scope.row)" title="分配角色"/>
         </template>
       </el-table-column>
     </el-table>
 
     <!-- 分页组件 -->
     <el-pagination
-      :current-page="page"
-      :total="total"
-      :page-size="limit"
-      style="padding: 30px 0; text-align: center;"
-      layout="total, prev, pager, next, jumper"
-      @current-change="fetchData"
+        :current-page="page"
+        :total="total"
+        :page-size="limit"
+        style="padding: 30px 0; text-align: center;"
+        layout="total, prev, pager, next, jumper"
+        @current-change="fetchData"
     />
 
     <el-dialog title="分配角色" :visible.sync="dialogRoleVisible">
@@ -93,7 +94,7 @@
           <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
           <div style="margin: 15px 0;"></div>
           <el-checkbox-group v-model="userRoleIds" @change="handleCheckedChange">
-            <el-checkbox v-for="role in allRoles" :key="role.id" :label="role.id">{{role.roleName}}</el-checkbox>
+            <el-checkbox v-for="role in allRoles" :key="role.id" :label="role.id">{{ role.roleName }}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </el-form>
@@ -103,8 +104,8 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="添加/修改" :visible.sync="dialogVisible" width="40%" >
-      <el-form ref="dataForm" :model="sysUser"  label-width="100px" size="small" style="padding-right: 40px;">
+    <el-dialog title="添加/修改" :visible.sync="dialogVisible" width="40%">
+      <el-form ref="dataForm" :model="sysUser" label-width="100px" size="small" style="padding-right: 40px;">
         <el-form-item label="用户名" prop="username">
           <el-input v-model="sysUser.username"/>
         </el-form-item>
@@ -137,7 +138,7 @@ export default {
       list: null, // 列表
       total: 0, // 数据库中的总记录数
       page: 1, // 默认页码
-      limit: 3, // 每页记录数
+      limit: 10, // 每页记录数
       searchObj: {}, // 查询表单对象
 
       createTimes: [],
@@ -156,25 +157,25 @@ export default {
     //调用列表方法
     this.fetchData()
   },
-  methods:{
+  methods: {
     //展示分配角色
-    showAssignRole (row) {
+    showAssignRole(row) {
       this.sysUser = row
       this.dialogRoleVisible = true
-       roleApi.getRolesByUserId(row.id).then(response => {
+      roleApi.getRolesByUserId(row.id).then(response => {
         this.allRoles = response.data.allRoles
         console.log(this.allRoles)
         this.userRoleIds = response.data.userRoleIds
         console.log(this.userRoleIds)
-        this.checkAll = this.userRoleIds.length===this.allRoles.length
-        this.isIndeterminate = this.userRoleIds.length>0 && this.userRoleIds.length<this.allRoles.length
+        this.checkAll = this.userRoleIds.length === this.allRoles.length
+        this.isIndeterminate = this.userRoleIds.length > 0 && this.userRoleIds.length < this.allRoles.length
       })
     },
 
     /*
     全选勾选状态发生改变的监听
     */
-    handleCheckAllChange (value) {// value 当前勾选状态true/false
+    handleCheckAllChange(value) {// value 当前勾选状态true/false
       // 如果当前全选, userRoleIds就是所有角色id的数组, 否则是空数组
       this.userRoleIds = value ? this.allRoles.map(item => item.id) : []
       // 如果当前不是全选也不全不选时, 指定为false
@@ -184,14 +185,14 @@ export default {
     /*
     角色列表选中项发生改变的监听
     */
-    handleCheckedChange (value) {
+    handleCheckedChange(value) {
       const {userRoleIds, allRoles} = this
-      this.checkAll = userRoleIds.length === allRoles.length && allRoles.length>0
-      this.isIndeterminate = userRoleIds.length>0 && userRoleIds.length<allRoles.length
+      this.checkAll = userRoleIds.length === allRoles.length && allRoles.length > 0
+      this.isIndeterminate = userRoleIds.length > 0 && userRoleIds.length < allRoles.length
     },
 
     //分配角色
-    assignRole () {
+    assignRole() {
       let assginRoleVo = {
         userId: this.sysUser.id,
         roleIdList: this.userRoleIds
@@ -205,22 +206,21 @@ export default {
     //更改用户状态
     switchStatus(row) {
       //判断，如果当前用户可用，修改禁用
-      row.status = row.status === 1 ? 0 : 1
-      api.updateStatus(row.id,row.status)
-        .then(response => {
-          this.$message.success(response.message || '操作成功')
-          this.fetchData()
-        })
+      api.updateStatus(row.id, row.enable)
+          .then(response => {
+            this.$message.success(response.message || '操作成功')
+            this.fetchData()
+          })
     },
     //删除
     removeDataById(id) {
-        this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          //调用方法删除
-          api.removeById(id)
+      this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        //调用方法删除
+        api.removeById(id)
             .then(response => {
               //提示
               this.$message({
@@ -229,8 +229,8 @@ export default {
               });
               //刷新
               this.fetchData()
-          })
-        })
+            })
+      })
     },
     //根据id查询，数据回显
     edit(id) {
@@ -238,13 +238,13 @@ export default {
       this.dialogVisible = true
       //调用接口查询
       api.getUserId(id)
-        .then(response => {
-          this.sysUser = response.data
-        })
+          .then(response => {
+            this.sysUser = response.data
+          })
     },
     //添加或者修改方法
     saveOrUpdate() {
-      if(!this.sysUser.id) {
+      if (!this.sysUser.id) {
         this.save()
       } else {
         this.update()
@@ -253,26 +253,26 @@ export default {
     //修改
     update() {
       api.update(this.sysUser)
-        .then(response => {
-          //提示
-          this.$message.success('操作成功')
-          //关闭弹框
-          this.dialogVisible = false
-          //刷新
-          this.fetchData()
-        })
+          .then(response => {
+            //提示
+            this.$message.success('操作成功')
+            //关闭弹框
+            this.dialogVisible = false
+            //刷新
+            this.fetchData()
+          })
     },
     //添加
     save() {
       api.save(this.sysUser)
-        .then(response => {
-          //提示
-          this.$message.success('操作成功')
-          //关闭弹框
-          this.dialogVisible = false
-          //刷新
-          this.fetchData()
-        })
+          .then(response => {
+            //提示
+            this.$message.success('操作成功')
+            //关闭弹框
+            this.dialogVisible = false
+            //刷新
+            this.fetchData()
+          })
     },
     //添加弹框的方法
     add() {
@@ -287,17 +287,17 @@ export default {
       this.fetchData()
     },
     //列表
-    fetchData(page=1) {
+    fetchData(page = 1) {
       this.page = page
-      if(this.createTimes && this.createTimes.length==2) {
+      if (this.createTimes && this.createTimes.length == 2) {
         this.searchObj.createTimeBegin = this.createTimes[0]
         this.searchObj.createTimeEnd = this.createTimes[1]
       }
-      api.getPageList(this.page,this.limit,this.searchObj)
-        .then(response => {
-          this.list = response.data.records
-          this.total = response.data.total
-        })
+      api.getPageList(this.page, this.limit, this.searchObj)
+          .then(response => {
+            this.list = response.data.list
+            this.total = response.data.total
+          })
     }
   }
 }

@@ -40,13 +40,13 @@ public class PageVO<T> {
     /**
      * 总行数
      */
-    private Long totalRow;
+    private Long total;
 
     public PageVO(IPage<?> page, List<T> list) {
         this.pageNumber = page.getCurrent();
         this.pageSize = page.getSize();
         this.totalPage = page.getPages();
-        this.totalRow = page.getTotal();
+        this.total = page.getTotal();
         this.list = list;
     }
 }

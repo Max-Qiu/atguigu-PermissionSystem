@@ -1,14 +1,14 @@
 import request from '@/utils/request'
 
 //常量
-const api_name = '/admin/system/sysUser'
+const api_name = '/user'
 
 export default {
     //列表
-    getPageList(page,limit,searchObj) {
+    getPageList(page, limit, searchObj) {
         return request({
             //接口路径
-            url: `${api_name}/${page}/${limit}`,
+            url: `${api_name}/page?pageNum=${page}&pageSize=${limit}`,
             method: 'get', //提交方式
             //参数
             params: searchObj
@@ -18,7 +18,7 @@ export default {
     save(user) {
         return request({
             //接口路径
-            url: `${api_name}/save`,
+            url: `${api_name}/create`,
             method: 'post', //提交方式
             //参数
             data: user
@@ -28,7 +28,7 @@ export default {
     getUserId(id) {
         return request({
             //接口路径
-            url: `${api_name}/getUser/${id}`,
+            url: `${api_name}/detail/${id}`,
             method: 'get' //提交方式
         })
     },
@@ -37,7 +37,7 @@ export default {
         return request({
             //接口路径
             url: `${api_name}/update`,
-            method: 'post', //提交方式
+            method: 'put', //提交方式
             //参数
             data: user
         })
@@ -46,16 +46,16 @@ export default {
     removeById(id) {
         return request({
             //接口路径
-            url: `${api_name}/remove/${id}`,
+            url: `${api_name}/delete/${id}`,
             method: 'delete' //提交方式
         })
     },
     //更改用户状态
-    updateStatus(id,status) {
+    updateStatus(id, enable) {
         return request({
             //接口路径
-            url: `${api_name}/updateStatus/${id}/${status}`,
-            method: 'get' //提交方式
+            url: `${api_name}/status/${id}/${enable}`,
+            method: 'put' //提交方式
         })
     },
 }
