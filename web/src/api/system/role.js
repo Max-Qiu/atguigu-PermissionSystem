@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 //常量
-const api_name = '/role/'
+const api_name = 'role'
 
 export default {
     //列表

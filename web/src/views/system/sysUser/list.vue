@@ -12,13 +12,13 @@
           <el-col :span="8">
             <el-form-item label="操作时间">
               <el-date-picker
-                  v-model="createTimes"
-                  type="datetimerange"
-                  range-separator="至"
-                  start-placeholder="开始时间"
-                  end-placeholder="结束时间"
-                  value-format="yyyy-MM-dd HH:mm:ss"
-                  style="margin-right: 10px;"
+                v-model="createTimes"
+                type="datetimerange"
+                range-separator="至"
+                start-placeholder="开始时间"
+                end-placeholder="结束时间"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                style="margin-right: 10px;"
               />
             </el-form-item>
           </el-col>
@@ -37,16 +37,16 @@
 
     <!-- 列表 -->
     <el-table
-        v-loading="listLoading"
-        :data="list"
-        stripe
-        border
-        style="width: 100%;margin-top: 10px;">
+      v-loading="listLoading"
+      :data="list"
+      stripe
+      border
+      style="width: 100%;margin-top: 10px;">
 
       <el-table-column
-          label="序号"
-          width="70"
-          align="center">
+        label="序号"
+        width="70"
+        align="center">
         <template slot-scope="scope">
           {{ (page - 1) * limit + scope.$index + 1 }}
         </template>
@@ -58,8 +58,8 @@
       <el-table-column label="状态" width="80">
         <template slot-scope="scope">
           <el-switch
-              v-model="scope.row.enable"
-              @change="switchStatus(scope.row)">
+            v-model="scope.row.enable"
+            @change="switchStatus(scope.row)">
           </el-switch>
         </template>
       </el-table-column>
@@ -76,12 +76,12 @@
 
     <!-- 分页组件 -->
     <el-pagination
-        :current-page="page"
-        :total="total"
-        :page-size="limit"
-        style="padding: 30px 0; text-align: center;"
-        layout="total, prev, pager, next, jumper"
-        @current-change="fetchData"
+      :current-page="page"
+      :total="total"
+      :page-size="limit"
+      style="padding: 30px 0; text-align: center;"
+      layout="total, prev, pager, next, jumper"
+      @current-change="fetchData"
     />
 
     <el-dialog title="分配角色" :visible.sync="dialogRoleVisible">
@@ -129,7 +129,7 @@
 </template>
 <script>
 import api from '@/api/system/user'
-import roleApi from '@/api/system/role'
+import user_roleApi from '@/api/system/user_role'
 
 export default {
   data() {
@@ -162,11 +162,9 @@ export default {
     showAssignRole(row) {
       this.sysUser = row
       this.dialogRoleVisible = true
-      roleApi.getRolesByUserId(row.id).then(response => {
+      user_roleApi.getRolesByUserId(row.id).then(response => {
         this.allRoles = response.data.allRoles
-        console.log(this.allRoles)
         this.userRoleIds = response.data.userRoleIds
-        console.log(this.userRoleIds)
         this.checkAll = this.userRoleIds.length === this.allRoles.length
         this.isIndeterminate = this.userRoleIds.length > 0 && this.userRoleIds.length < this.allRoles.length
       })
@@ -197,7 +195,7 @@ export default {
         userId: this.sysUser.id,
         roleIdList: this.userRoleIds
       }
-      roleApi.assignRoles(assginRoleVo).then(response => {
+      user_roleApi.assignRoles(assginRoleVo).then(response => {
         this.$message.success(response.message || '分配角色成功')
         this.dialogRoleVisible = false
         this.fetchData(this.page)
@@ -207,10 +205,10 @@ export default {
     switchStatus(row) {
       //判断，如果当前用户可用，修改禁用
       api.updateStatus(row.id, row.enable)
-          .then(response => {
-            this.$message.success(response.message || '操作成功')
-            this.fetchData()
-          })
+        .then(response => {
+          this.$message.success(response.message || '操作成功')
+          this.fetchData()
+        })
     },
     //删除
     removeDataById(id) {
@@ -221,15 +219,15 @@ export default {
       }).then(() => {
         //调用方法删除
         api.removeById(id)
-            .then(response => {
-              //提示
-              this.$message({
-                type: 'success',
-                message: '删除成功!'
-              });
-              //刷新
-              this.fetchData()
-            })
+          .then(response => {
+            //提示
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+            //刷新
+            this.fetchData()
+          })
       })
     },
     //根据id查询，数据回显
@@ -238,9 +236,9 @@ export default {
       this.dialogVisible = true
       //调用接口查询
       api.getUserId(id)
-          .then(response => {
-            this.sysUser = response.data
-          })
+        .then(response => {
+          this.sysUser = response.data
+        })
     },
     //添加或者修改方法
     saveOrUpdate() {
@@ -253,26 +251,26 @@ export default {
     //修改
     update() {
       api.update(this.sysUser)
-          .then(response => {
-            //提示
-            this.$message.success('操作成功')
-            //关闭弹框
-            this.dialogVisible = false
-            //刷新
-            this.fetchData()
-          })
+        .then(response => {
+          //提示
+          this.$message.success('操作成功')
+          //关闭弹框
+          this.dialogVisible = false
+          //刷新
+          this.fetchData()
+        })
     },
     //添加
     save() {
       api.save(this.sysUser)
-          .then(response => {
-            //提示
-            this.$message.success('操作成功')
-            //关闭弹框
-            this.dialogVisible = false
-            //刷新
-            this.fetchData()
-          })
+        .then(response => {
+          //提示
+          this.$message.success('操作成功')
+          //关闭弹框
+          this.dialogVisible = false
+          //刷新
+          this.fetchData()
+        })
     },
     //添加弹框的方法
     add() {
@@ -294,10 +292,10 @@ export default {
         this.searchObj.createTimeEnd = this.createTimes[1]
       }
       api.getPageList(this.page, this.limit, this.searchObj)
-          .then(response => {
-            this.list = response.data.list
-            this.total = response.data.total
-          })
+        .then(response => {
+          this.list = response.data.list
+          this.total = response.data.total
+        })
     }
   }
 }

@@ -36,7 +36,6 @@ router.beforeEach(async (to, from, next) => {
                         next()
                     }
                     const menus = filterAsyncRouter(store.getters.menus)// 1.过滤路由
-                    console.log(menus)
                     router.addRoutes(menus) // 2.动态添加路由
                     let lastRou = [{path: '*', redirect: '/404', hidden: true}]
                     router.addRoutes(lastRou)
