@@ -13,20 +13,20 @@
       :default-expand-all="false"
       :tree-props="{children: 'children'}">
 
-      <el-table-column prop="name" label="菜单名称" width="160"/>
-      <el-table-column label="图标">
+      <el-table-column prop="name" label="菜单名称"/>
+      <el-table-column label="图标" width="60" align="center">
         <template slot-scope="scope">
           <i :class="scope.row.icon"></i>
         </template>
       </el-table-column>
-      <el-table-column prop="perms" label="权限标识" width="160"/>
+      <el-table-column prop="perms" label="权限标识" width="200"/>
       <el-table-column prop="path" label="路由地址" width="120"/>
       <el-table-column prop="component" label="组件路径" width="160"/>
       <el-table-column prop="sortValue" label="排序" width="60"/>
-      <el-table-column label="状态" width="80">
+      <el-table-column label="状态" width="80" align="center">
         <template slot-scope="scope">
           <el-switch
-            v-model="scope.row.status === 1" disabled="true">
+            v-model="scope.row.enable === true" disabled="true">
           </el-switch>
         </template>
       </el-table-column>
@@ -40,7 +40,7 @@
       </el-table-column>
     </el-table>
 
-    <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="40%" >
+    <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="40%">
       <el-form ref="dataForm" :model="sysMenu" label-width="150px" size="small" style="padding-right: 40px;">
         <el-form-item label="上级部门" v-if="sysMenu.id === ''">
           <el-input v-model="sysMenu.parentName" disabled="true"/>
@@ -66,7 +66,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="排序">
-          <el-input-number v-model="sysMenu.sortValue" controls-position="right" :min="0" />
+          <el-input-number v-model="sysMenu.sortValue" controls-position="right" :min="0"/>
         </el-form-item>
         <el-form-item prop="path">
               <span slot="label">
@@ -75,7 +75,7 @@
                 </el-tooltip>
                 路由地址
               </span>
-          <el-input v-model="sysMenu.path" placeholder="请输入路由地址" />
+          <el-input v-model="sysMenu.path" placeholder="请输入路由地址"/>
         </el-form-item>
         <el-form-item prop="component" v-if="sysMenu.type !== 0">
               <span slot="label">
@@ -84,10 +84,10 @@
                 </el-tooltip>
                 组件路径
               </span>
-          <el-input v-model="sysMenu.component" placeholder="请输入组件路径" />
+          <el-input v-model="sysMenu.component" placeholder="请输入组件路径"/>
         </el-form-item>
         <el-form-item v-if="sysMenu.type === 2">
-          <el-input v-model="sysMenu.perms" placeholder="请输入权限标识" maxlength="100" />
+          <el-input v-model="sysMenu.perms" placeholder="请输入权限标识" maxlength="100"/>
           <span slot="label">
                 <el-tooltip content="控制器中定义的权限字符，如：@PreAuthorize(hasAuthority('bnt.sysRole.list'))" placement="top">
                 <i class="el-icon-question"></i>
@@ -96,9 +96,9 @@
               </span>
         </el-form-item>
         <el-form-item label="状态" prop="type">
-          <el-radio-group v-model="sysMenu.status">
-            <el-radio :label="1">正常</el-radio>
-            <el-radio :label="0">停用</el-radio>
+          <el-radio-group v-model="sysMenu.enable">
+            <el-radio :label="true">正常</el-radio>
+            <el-radio :label="false">停用</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-form>
@@ -112,6 +112,7 @@
 
 <script>
 import api from '@/api/system/menu'
+
 const defaultForm = {
   id: '',
   parentId: '',
@@ -205,16 +206,13 @@ export default {
   methods: {
     //调用api层获取数据库中的数据
     fetchData() {
-      console.log('加载列表')
       api.findNodes().then(response => {
         this.sysMenuList = response.data
-        console.log(this.sysMenuList)
       })
     },
 
     //根据id删除数据
     removeDataById(id) {
-      // debugger
       this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -229,30 +227,29 @@ export default {
           message: response.message
         })
       }).catch(() => {
-         this.$message.info('取消删除')
+        this.$message.info('取消删除')
       })
     },
 
     //弹出添加或更新的表单
-    add(row){
-      debugger
+    add(row) {
       this.typeDisabled = false
       this.dialogTitle = '添加下级节点'
       this.dialogVisible = true
 
       this.sysMenu = Object.assign({}, defaultForm)
       this.sysMenu.id = ''
-      if(row) {
+      if (row) {
         this.sysMenu.parentId = row.id
         this.sysMenu.parentName = row.name
         //this.sysMenu.component = 'ParentView'
-        if(row.type === 0) {
+        if (row.type === 0) {
           this.sysMenu.type = 1
           this.typeDisabled = false
           this.type0Disabled = false
           this.type1Disabled = false
           this.type2Disabled = true
-        } else if(row.type === 1) {
+        } else if (row.type === 1) {
           this.sysMenu.type = 2
           this.typeDisabled = true
         }
@@ -267,17 +264,15 @@ export default {
 
     //编辑
     edit(row) {
-      debugger
       this.dialogTitle = '修改菜单'
       this.dialogVisible = true
-
       this.sysMenu = Object.assign({}, row)
       this.typeDisabled = true
     },
-	
+
     //添加或更新
     saveOrUpdate() {
-      if(this.sysMenu.type === 0 && this.sysMenu.parentId !== 0) {
+      if (this.sysMenu.type === 0 && this.sysMenu.parentId !== 0) {
         this.sysMenu.component = 'ParentView'
       }
       this.$refs.dataForm.validate(valid => {

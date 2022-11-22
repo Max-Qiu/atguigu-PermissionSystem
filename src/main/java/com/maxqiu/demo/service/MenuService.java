@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.maxqiu.demo.entity.Menu;
 import com.maxqiu.demo.mapper.MenuMapper;
+import com.maxqiu.demo.request.MenuFormRequest;
 
 /**
  * 菜单 服务类
@@ -31,5 +32,40 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> {
             // 如果userid不是1，其他类型用户，查询这个用户权限
             return baseMapper.listUserId(userId);
         }
+    }
+
+    /**
+     * 新增
+     */
+    public boolean create(MenuFormRequest formRequest) {
+        Menu menu = new Menu();
+        menu.setParentId(formRequest.getParentId());
+        menu.setName(formRequest.getName());
+        menu.setType(formRequest.getType());
+        menu.setPath(formRequest.getPath());
+        menu.setComponent(formRequest.getComponent());
+        menu.setPerms(formRequest.getPerms());
+        menu.setIcon(formRequest.getIcon());
+        menu.setSortValue(formRequest.getSortValue());
+        menu.setEnable(formRequest.getEnable());
+        return save(menu);
+    }
+
+    /**
+     * 修改
+     */
+    public boolean updateById(MenuFormRequest formRequest) {
+        Menu menu = new Menu();
+        menu.setId(formRequest.getId());
+        menu.setParentId(formRequest.getParentId());
+        menu.setName(formRequest.getName());
+        menu.setType(formRequest.getType());
+        menu.setPath(formRequest.getPath());
+        menu.setComponent(formRequest.getComponent());
+        menu.setPerms(formRequest.getPerms());
+        menu.setIcon(formRequest.getIcon());
+        menu.setSortValue(formRequest.getSortValue());
+        menu.setEnable(formRequest.getEnable());
+        return updateById(menu);
     }
 }

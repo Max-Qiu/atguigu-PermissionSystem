@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.maxqiu.demo.common.Result;
 import com.maxqiu.demo.entity.Menu;
 import com.maxqiu.demo.pojo.vo.MenuTreeVO;
+import com.maxqiu.demo.request.MenuFormRequest;
 import com.maxqiu.demo.service.MenuService;
 
 /**
@@ -42,17 +43,13 @@ public class MenuController {
      * 递归查找所有菜单的子菜单
      */
     private List<MenuTreeVO> listToTreeVO(Integer parentId, List<Menu> all) {
-        List<MenuTreeVO> collect = all.stream()
+        return all.stream()
             // 根据父ID过滤
             .filter(category -> category.getParentId().equals(parentId))
             // 转换为VO
             .map(e -> new MenuTreeVO(e, listToTreeVO(e.getId(), all)))
             // 收集
             .collect(Collectors.toList());
-        if (collect.size() == 0) {
-            return null;
-        }
-        return collect;
     }
 
     /**
@@ -67,16 +64,16 @@ public class MenuController {
      * 新增
      */
     @PostMapping("create")
-    public Result<?> create(@RequestBody Menu menu) {
-        return Result.byFlag(menuService.save(menu));
+    public Result<?> create(@RequestBody MenuFormRequest formRequest) {
+        return Result.byFlag(menuService.create(formRequest));
     }
 
     /**
      * 修改
      */
     @PutMapping("update")
-    public Result<?> update(@RequestBody Menu menu) {
-        return Result.byFlag(menuService.updateById(menu));
+    public Result<?> update(@RequestBody MenuFormRequest formRequest) {
+        return Result.byFlag(menuService.updateById(formRequest));
     }
 
     /**
@@ -84,7 +81,7 @@ public class MenuController {
      */
     @DeleteMapping("delete/{id}")
     public Result<?> delete(@PathVariable String id) {
-        // menuService.removeMenuById(id);
-        return Result.success();
+        // TODO 校验是否有子菜单
+        return Result.success(menuService.removeById(id));
     }
 }

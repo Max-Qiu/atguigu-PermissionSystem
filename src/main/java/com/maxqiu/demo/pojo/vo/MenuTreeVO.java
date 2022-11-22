@@ -3,6 +3,7 @@ package com.maxqiu.demo.pojo.vo;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.maxqiu.demo.entity.Menu;
 
 import lombok.Getter;
@@ -66,24 +67,15 @@ public class MenuTreeVO {
     private Integer sortValue;
 
     /**
-     * 状态
+     * 是否启用
      */
-    private Boolean status;
-
-    /**
-     * 是否删除
-     */
-    private Boolean deleted;
+    private Boolean enable;
 
     /**
      * 创建时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
-
-    /**
-     * 更新时间
-     */
-    private LocalDateTime updateTime;
 
     /**
      * 子集合
@@ -100,10 +92,8 @@ public class MenuTreeVO {
         this.setPerms(entity.getPerms());
         this.setIcon(entity.getIcon());
         this.setSortValue(entity.getSortValue());
-        this.setStatus(entity.getEnable());
-        this.setDeleted(entity.getDeleted());
+        this.setEnable(entity.getEnable());
         this.setCreateTime(entity.getCreateTime());
-        this.setUpdateTime(entity.getUpdateTime());
         this.setChildren(children);
     }
 }
