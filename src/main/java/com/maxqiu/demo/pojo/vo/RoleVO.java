@@ -36,16 +36,6 @@ public class RoleVO {
     private String roleCode;
 
     /**
-     * 描述
-     */
-    private String description;
-
-    /**
-     * 删除标记
-     */
-    private Boolean deleted;
-
-    /**
      * 创建时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -61,8 +51,6 @@ public class RoleVO {
         this.setId(entity.getId());
         this.setRoleName(entity.getRoleName());
         this.setRoleCode(entity.getRoleCode());
-        this.setDescription(entity.getDescription());
-        this.setDeleted(entity.getDeleted());
         this.setCreateTime(entity.getCreateTime());
         this.setUpdateTime(entity.getUpdateTime());
     }

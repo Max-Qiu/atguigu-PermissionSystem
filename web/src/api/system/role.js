@@ -1,14 +1,14 @@
 import request from '@/utils/request'
 
 //常量
-const api_name = '/admin/system/sysRole/'
+const api_name = '/role/'
 
 export default {
     //列表
-    getPageList(page,limit,searchObj) {
+    getPageList(page, limit, searchObj) {
         return request({
             //接口路径
-            url: `${api_name}/${page}/${limit}`,
+            url: `${api_name}/page?pageNum=${page}&pageSize=${limit}`,
             method: 'get', //提交方式
             //参数
             params: searchObj
@@ -18,7 +18,7 @@ export default {
     removeId(id) {
         return request({
             //接口路径
-            url: `${api_name}/remove/${id}`,
+            url: `${api_name}/delete/${id}`,
             method: 'delete' //提交方式
         })
     },
@@ -26,7 +26,7 @@ export default {
     saveRole(role) {
         return request({
             //接口路径
-            url: `${api_name}/save`,
+            url: `${api_name}/create`,
             method: 'post', //提交方式
             //传递json格式
             data: role
@@ -36,8 +36,8 @@ export default {
     getRoleId(id) {
         return request({
             //接口路径
-            url: `${api_name}/findRoleById/${id}`,
-            method: 'post' //提交方式
+            url: `${api_name}/detail/${id}`,
+            method: 'get' //提交方式
         })
     },
     //修改的方法
@@ -45,7 +45,7 @@ export default {
         return request({
             //接口路径
             url: `${api_name}/update`,
-            method: 'post', //提交方式
+            method: 'put', //提交方式
             data: role
         })
     },
@@ -53,7 +53,7 @@ export default {
     batchRemove(idList) {
         return request({
             //接口路径
-            url: `${api_name}/batchRemove`,
+            url: `${api_name}/delete`,
             method: 'delete', //提交方式
             data: idList
         })
@@ -61,16 +61,16 @@ export default {
     //根据用户id查询用户已分配的角色
     getRolesByUserId(userId) {
         return request({
-        url: `${api_name}/toAssign/${userId}`,
-        method: 'get'
+            url: `${api_name}/toAssign/${userId}`,
+            method: 'get'
         })
     },
     //分配角色
     assignRoles(assginRoleVo) {
         return request({
-        url: `${api_name}/doAssign`,
-        method: 'post',
-        data: assginRoleVo
+            url: `${api_name}/doAssign`,
+            method: 'post',
+            data: assginRoleVo
         })
     }
 }

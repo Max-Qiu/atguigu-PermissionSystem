@@ -20,6 +20,7 @@ import com.maxqiu.demo.common.Result;
 import com.maxqiu.demo.entity.Role;
 import com.maxqiu.demo.pojo.vo.PageVO;
 import com.maxqiu.demo.pojo.vo.RoleVO;
+import com.maxqiu.demo.request.RoleFormRequest;
 import com.maxqiu.demo.request.RolePageRequest;
 import com.maxqiu.demo.service.RoleService;
 
@@ -38,7 +39,7 @@ public class RoleController {
      * 查询所有记录
      */
     @GetMapping("list")
-    public Result<List<RoleVO>> findAllRole() {
+    public Result<List<RoleVO>> list() {
         List<Role> list = roleService.list();
         List<RoleVO> collect = list.stream().map(RoleVO::new).collect(Collectors.toList());
         return Result.success(collect);
@@ -48,7 +49,7 @@ public class RoleController {
      * 条件分页查询
      */
     @GetMapping("page")
-    public Result<PageVO<RoleVO>> findPageQueryRole(@Validated RolePageRequest pageRequest) {
+    public Result<PageVO<RoleVO>> page(@Validated RolePageRequest pageRequest) {
         IPage<Role> page = roleService.page(pageRequest);
         List<RoleVO> collect = page.getRecords().stream().map(RoleVO::new).collect(Collectors.toList());
         return Result.success(new PageVO<>(page, collect));
@@ -58,7 +59,7 @@ public class RoleController {
      * 根据id查询
      */
     @GetMapping("detail/{id}")
-    public Result<RoleVO> findRoleById(@PathVariable Long id) {
+    public Result<RoleVO> detail(@PathVariable Long id) {
         return Result.success(new RoleVO(roleService.getById(id)));
     }
 
@@ -66,16 +67,16 @@ public class RoleController {
      * 添加
      */
     @PostMapping("create")
-    public Result<?> create(@RequestBody Role role) {
-        return Result.byFlag(roleService.save(role));
+    public Result<?> create(@RequestBody RoleFormRequest formRequest) {
+        return Result.byFlag(roleService.create(formRequest));
     }
 
     /**
      * 修改
      */
     @PutMapping("update")
-    public Result<?> update(@RequestBody Role role) {
-        return Result.byFlag(roleService.updateById(role));
+    public Result<?> update(@RequestBody RoleFormRequest formRequest) {
+        return Result.byFlag(roleService.updateById(formRequest));
     }
 
     /**
