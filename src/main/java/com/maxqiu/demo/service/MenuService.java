@@ -68,4 +68,13 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> {
         menu.setEnable(formRequest.getEnable());
         return updateById(menu);
     }
+
+    /**
+     * 列出启动的菜单
+     */
+    public List<Menu> listEnabled() {
+        LambdaQueryWrapper<Menu> wrapper = Wrappers.lambdaQuery();
+        wrapper.eq(Menu::getEnable, true);
+        return list(wrapper);
+    }
 }

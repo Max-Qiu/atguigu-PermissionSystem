@@ -2,6 +2,7 @@ package com.maxqiu.demo.pojo.vo;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.maxqiu.demo.entity.Menu;
@@ -82,6 +83,11 @@ public class MenuTreeVO {
      */
     private List<MenuTreeVO> children;
 
+    /**
+     * 是否选中
+     */
+    private Boolean select;
+
     public MenuTreeVO(Menu entity, List<MenuTreeVO> children) {
         this.setId(entity.getId());
         this.setParentId(entity.getParentId());
@@ -95,5 +101,10 @@ public class MenuTreeVO {
         this.setEnable(entity.getEnable());
         this.setCreateTime(entity.getCreateTime());
         this.setChildren(children);
+    }
+
+    public MenuTreeVO(Menu entity, List<MenuTreeVO> children, Set<Integer> menuIds) {
+        this(entity, children);
+        this.select = menuIds.contains(entity.getId());
     }
 }
