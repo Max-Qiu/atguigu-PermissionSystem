@@ -22,6 +22,10 @@ public enum ResultEnum {
     // 服务器异常
     SERVER_ERROR(500, "未知异常"),
 
+    PERMISSION(209, "没有权限"),
+
+    ACCOUNT_ERROR(216, "账号不正确"),
+
     ;
 
     private final Integer code;
