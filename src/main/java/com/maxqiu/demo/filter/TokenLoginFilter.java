@@ -20,10 +20,12 @@ import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson2.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.maxqiu.demo.common.IpUtil;
 import com.maxqiu.demo.common.ResponseUtil;
 import com.maxqiu.demo.common.Result;
 import com.maxqiu.demo.enums.ResultEnum;
 import com.maxqiu.demo.request.LoginFormRequest;
+import com.maxqiu.demo.service.LogLoginService;
 
 import cn.hutool.core.lang.UUID;
 
@@ -37,7 +39,8 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
     @Resource
     private RedisTemplate<String, String> redisTemplate;
 
-    // private LoginLogService loginLogService;
+    @Resource
+    private LogLoginService logLoginService;
 
     // 构造
     public TokenLoginFilter() {
@@ -78,7 +81,7 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
         redisTemplate.opsForValue().set(token, user.getUsername(), 10, TimeUnit.MINUTES);
 
         // 记录登录日志
-        // loginLogService.recordLoginLog(user.getUsername(), 1, IpUtil.getIpAddress(request), "登录成功");
+        logLoginService.recordLogLogin(user.getUsername(), 1, IpUtil.getIpAddress(request), "登录成功");
         // 返回
         ResponseUtil.out(response, Result.success(token));
     }

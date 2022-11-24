@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.maxqiu.demo.aspect.Log;
 import com.maxqiu.demo.common.Result;
 import com.maxqiu.demo.entity.Role;
+import com.maxqiu.demo.enums.BusinessType;
 import com.maxqiu.demo.pojo.vo.PageVO;
 import com.maxqiu.demo.pojo.vo.RoleVO;
 import com.maxqiu.demo.request.RoleFormRequest;
@@ -66,6 +68,7 @@ public class RoleController {
     /**
      * 添加
      */
+    @Log(title = "角色管理", businessType = BusinessType.INSERT)
     @PostMapping("create")
     public Result<?> create(@RequestBody RoleFormRequest formRequest) {
         return Result.byFlag(roleService.create(formRequest));
