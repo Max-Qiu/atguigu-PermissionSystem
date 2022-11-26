@@ -33,7 +33,7 @@ public class UserRole extends Model<UserRole> {
      * 主键ID
      */
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     /**
      * 用户ID

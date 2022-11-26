@@ -72,12 +72,6 @@ public class LogOperation extends Model<LogOperation> {
     private String operName;
 
     /**
-     * 部门名称
-     */
-    @TableField("dept_name")
-    private String deptName;
-
-    /**
      * 请求URL
      */
     @TableField("oper_url")
@@ -86,8 +80,8 @@ public class LogOperation extends Model<LogOperation> {
     /**
      * 主机地址
      */
-    @TableField("oper_ip")
-    private String operIp;
+    @TableField("ip")
+    private String ip;
 
     /**
      * 请求参数
@@ -102,7 +96,7 @@ public class LogOperation extends Model<LogOperation> {
     private String jsonResult;
 
     /**
-     * 操作状态（0正常 1异常）
+     * 操作状态 0正常 1异常
      */
     @TableField("`status`")
     private Integer status;
@@ -113,23 +107,8 @@ public class LogOperation extends Model<LogOperation> {
     @TableField("error_msg")
     private String errorMsg;
 
-    /**
-     * 操作时间
-     */
-    @TableField("oper_time")
-    private LocalDateTime operTime;
-
     @TableField("create_time")
     private LocalDateTime createTime;
-
-    @TableField("update_time")
-    private LocalDateTime updateTime;
-
-    /**
-     * 删除标记（0:可用 1:已删除）
-     */
-    @TableField("deleted")
-    private Integer deleted;
 
     @Override
     public Serializable pkVal() {

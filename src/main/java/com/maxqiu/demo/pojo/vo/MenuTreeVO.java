@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.maxqiu.demo.entity.Menu;
+import com.maxqiu.demo.enums.MenuTypeEnum;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,9 +39,9 @@ public class MenuTreeVO {
     private String name;
 
     /**
-     * 类型(0:目录,1:菜单,2:按钮)
+     * 类型
      */
-    private Integer type;
+    private MenuTypeEnum type;
 
     /**
      * 路由地址

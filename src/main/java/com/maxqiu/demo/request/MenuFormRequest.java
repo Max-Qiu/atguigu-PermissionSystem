@@ -1,5 +1,7 @@
 package com.maxqiu.demo.request;
 
+import com.maxqiu.demo.enums.MenuTypeEnum;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,9 +33,9 @@ public class MenuFormRequest {
     private String name;
 
     /**
-     * 类型(0:目录,1:菜单,2:按钮)
+     * 类型
      */
-    private Integer type;
+    private MenuTypeEnum type;
 
     /**
      * 路由地址

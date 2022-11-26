@@ -13,6 +13,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.context.request.RequestAttributes;
@@ -36,13 +37,16 @@ public class LogAspect {
 
     @AfterReturning(pointcut = "@annotation(controllerLog)", returning = "jsonResult")
     public void doAfterReturning(JoinPoint joinPoint, Log controllerLog, Object jsonResult) {
-        handleLog(joinPoint, controllerLog, null, jsonResult);
+        handleLog(joinPoint, controllerLog, jsonResult);
     }
 
-    protected void handleLog(final JoinPoint joinPoint, Log controllerLog, final Exception e, Object jsonResult) {
+    protected void handleLog(final JoinPoint joinPoint, Log controllerLog, Object jsonResult) {
         try {
             RequestAttributes ra = RequestContextHolder.getRequestAttributes();
             ServletRequestAttributes sra = (ServletRequestAttributes)ra;
+            if (sra == null) {
+                return;
+            }
             HttpServletRequest request = sra.getRequest();
 
             // *========数据库日志=========*//
@@ -52,17 +56,12 @@ public class LogAspect {
 
             // 请求的地址
             String ip = IpUtil.getIpAddress(request);
-            operLog.setOperIp(ip);
+            operLog.setIp(ip);
             operLog.setOperUrl(request.getRequestURI());
 
             String token = request.getHeader("token");
             String userName = redisTemplate.opsForValue().get(token);
             operLog.setOperName(userName);
-
-            if (e != null) {
-                operLog.setStatus(0);
-                operLog.setErrorMsg(e.getMessage());
-            }
 
             // 设置方法名称
             String className = joinPoint.getTarget().getClass().getName();
@@ -117,7 +116,7 @@ public class LogAspect {
      * @throws Exception
      *             异常
      */
-    private void setRequestValue(JoinPoint joinPoint, LogOperation operLog) throws Exception {
+    private void setRequestValue(JoinPoint joinPoint, LogOperation operLog) {
         String requestMethod = operLog.getRequestMethod();
         if (HttpMethod.PUT.name().equals(requestMethod) || HttpMethod.POST.name().equals(requestMethod)) {
             String params = argsArrayToString(joinPoint.getArgs());
@@ -129,19 +128,16 @@ public class LogAspect {
      * 参数拼装
      */
     private String argsArrayToString(Object[] paramsArray) {
-        String params = "";
+        StringBuilder params = new StringBuilder();
         if (paramsArray != null && paramsArray.length > 0) {
             for (Object o : paramsArray) {
-                if (!StringUtils.isEmpty(o) && !isFilterObject(o)) {
-                    try {
-                        Object jsonObj = JSON.toJSON(o);
-                        params += jsonObj.toString() + " ";
-                    } catch (Exception e) {
-                    }
+                if (!ObjectUtils.isEmpty(o) && !isFilterObject(o)) {
+                    Object jsonObj = JSON.toJSON(o);
+                    params.append(jsonObj.toString()).append(" ");
                 }
             }
         }
-        return params.trim();
+        return params.toString().trim();
     }
 
     /**

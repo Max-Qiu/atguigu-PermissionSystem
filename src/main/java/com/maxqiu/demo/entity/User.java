@@ -66,24 +66,6 @@ public class User extends Model<User> {
     private String headUrl;
 
     /**
-     * 部门id
-     */
-    @TableField("dept_id")
-    private Long deptId;
-
-    /**
-     * 岗位id
-     */
-    @TableField("post_id")
-    private Long postId;
-
-    /**
-     * 描述
-     */
-    @TableField("`description`")
-    private String description;
-
-    /**
      * 是否启用
      */
     @TableField("`enable`")

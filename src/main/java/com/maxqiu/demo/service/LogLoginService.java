@@ -29,11 +29,11 @@ public class LogLoginService extends ServiceImpl<LogLoginMapper, LogLogin> {
         return page(pageRequest.toPage(), wrapper);
     }
 
-    public void recordLogLogin(String username, Integer status, String ipaddr, String message) {
+    public void recordLogLogin(String username, Integer status, String ip, String message) {
         LogLogin logLogin = new LogLogin();
         logLogin.setUsername(username);
         logLogin.setStatus(status);
-        logLogin.setIpaddr(ipaddr);
+        logLogin.setIp(ip);
         logLogin.setMsg(message);
         save(logLogin);
     }

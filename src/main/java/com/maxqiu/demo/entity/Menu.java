@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.maxqiu.demo.enums.MenuTypeEnum;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -48,10 +49,10 @@ public class Menu extends Model<Menu> {
     private String name;
 
     /**
-     * 类型(0:目录,1:菜单,2:按钮)
+     * 类型
      */
     @TableField("`type`")
-    private Integer type;
+    private MenuTypeEnum type;
 
     /**
      * 路由地址

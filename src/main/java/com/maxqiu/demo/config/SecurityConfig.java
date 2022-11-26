@@ -23,6 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.maxqiu.demo.entity.Menu;
 import com.maxqiu.demo.entity.User;
+import com.maxqiu.demo.enums.MenuTypeEnum;
 import com.maxqiu.demo.filter.TokenAuthenticationFilter;
 import com.maxqiu.demo.filter.TokenLoginFilter;
 import com.maxqiu.demo.service.MenuService;
@@ -66,7 +67,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             }
             // 根据userid查询操作权限数据
             List<Menu> userPermsList = sysMenuService.listByUserId(user.getId());
-            Set<String> collect = userPermsList.stream().filter(e -> e.getType() == 2).map(Menu::getPerms).collect(Collectors.toSet());
+            Set<String> collect =
+                userPermsList.stream().filter(e -> e.getType().equals(MenuTypeEnum.BUTTON)).map(Menu::getPerms).collect(Collectors.toSet());
             // 转换security要求格式数据
             List<SimpleGrantedAuthority> authorities = new ArrayList<>();
             for (String perm : collect) {

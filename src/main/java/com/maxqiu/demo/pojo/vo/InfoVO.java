@@ -8,6 +8,7 @@ import org.springframework.util.StringUtils;
 
 import com.maxqiu.demo.entity.Menu;
 import com.maxqiu.demo.entity.User;
+import com.maxqiu.demo.enums.MenuTypeEnum;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -48,7 +49,7 @@ public class InfoVO {
         this.name = user.getName();
         this.avatar = "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif";
         this.routers = buildRouters(list, 0);
-        this.buttons = list.stream().filter(e -> e.getType() == 2).map(Menu::getPerms).toList();
+        this.buttons = list.stream().filter(e -> e.getType().equals(MenuTypeEnum.BUTTON)).map(Menu::getPerms).toList();
     }
 
     /**
@@ -65,7 +66,7 @@ public class InfoVO {
             router.setAlwaysShow(false);
             List<Menu> children = menus.stream().filter(e -> e.getParentId().equals(menu.getId())).toList();
             // 如果当前是菜单，需将按钮对应的路由加载出来，如：“角色授权”按钮对应的路由在“系统管理”下面
-            if (menu.getType() == 1) {
+            if (menu.getType().equals(MenuTypeEnum.MENU)) {
                 List<Menu> hiddenMenuList = children.stream().filter(item -> StringUtils.hasText(item.getComponent())).toList();
                 for (Menu hiddenMenu : hiddenMenuList) {
                     RouterVO hiddenRouter = new RouterVO(hiddenMenu);

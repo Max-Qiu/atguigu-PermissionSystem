@@ -39,13 +39,13 @@ public class LogLogin extends Model<LogLogin> {
     private String username;
 
     /**
-     * 登录IP地址
+     * 登录IP
      */
-    @TableField("ipaddr")
-    private String ipaddr;
+    @TableField("ip")
+    private String ip;
 
     /**
-     * 登录状态（0成功 1失败）
+     * 登录状态 0成功 1失败
      */
     @TableField("`status`")
     private Integer status;
@@ -56,23 +56,8 @@ public class LogLogin extends Model<LogLogin> {
     @TableField("msg")
     private String msg;
 
-    /**
-     * 访问时间
-     */
-    @TableField("access_time")
-    private LocalDateTime accessTime;
-
     @TableField("create_time")
     private LocalDateTime createTime;
-
-    @TableField("update_time")
-    private LocalDateTime updateTime;
-
-    /**
-     * 删除标记（0:可用 1:已删除）
-     */
-    @TableField("deleted")
-    private Integer deleted;
 
     @Override
     public Serializable pkVal() {

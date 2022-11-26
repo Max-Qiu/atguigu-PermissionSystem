@@ -28,7 +28,7 @@ public enum BusinessType {
     /**
      * 授权
      */
-    ASSGIN,
+    ASSIGN,
 
     /**
      * 导出

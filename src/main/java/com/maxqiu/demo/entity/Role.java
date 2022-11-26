@@ -48,12 +48,6 @@ public class Role extends Model<Role> {
     private String roleCode;
 
     /**
-     * 描述
-     */
-    @TableField("`description`")
-    private String description;
-
-    /**
      * 是否删除
      */
     @TableField("deleted")
